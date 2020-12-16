@@ -19,6 +19,11 @@ class AttribValueInline(admin.TabularInline):
 class AttributeAdmin(admin.ModelAdmin):
     model = Attribute
 
+    def no_of_values(self, obj):
+        """This gives the number of data objects in this Node"""
+        return obj.attribvalue_set.count()
+
+    list_display = ['name', 'no_of_values']
     inlines = [AttribValueInline]
 # ****************** End Group ******************
 #
@@ -31,8 +36,33 @@ class AttributeInline(admin.TabularInline):
 
 
 class DataObjectAdmin(admin.ModelAdmin):
+
+
+    def no_of_attributes(self, obj):
+        """This gives the number of data objects in this Node"""
+        return obj.attribute_set.count()
+
     model = DataObject
+    list_display = ['name', 'no_of_attributes']
     inlines = [AttributeInline]
+
+# ****************** End Group ******************
+#
+# ******************* Group *********************
+
+class LogicalNodeInline(admin.TabularInline):
+    model = LogicalNode
+    extra = 0
+
+class LogicalDeviceAdmin(admin.ModelAdmin):
+    model = LogicalDevice
+
+    def no_of_logical_nodes(self, obj):
+        """This gives the number of data objects in this Node"""
+        return obj.logicalnode_set.count()
+
+    list_display = ['name', 'no_of_logical_nodes']
+    inlines = [LogicalNodeInline]
 
 # ****************** End Group ******************
 #
@@ -45,8 +75,15 @@ class DataObjectInline(admin.TabularInline):
 
 
 class LogicalNodeAdmin(admin.ModelAdmin):
+
+
+    def no_of_data_objects(self, obj):
+        """This gives the number of data objects in this Node"""
+        return obj.dataobject_set.count()
+
     model = LogicalNode
 
+    list_display = ['name', 'no_of_data_objects']
     inlines = [DataObjectInline]
 # ****************** End Group ******************
 #
@@ -59,8 +96,14 @@ class LogicalDeviceInLine(admin.TabularInline):
 
 
 class IEDAdmin(admin.ModelAdmin):
+
+    def no_of_logical_devices(self, obj):
+        """This gives the number of logical devices in this IED"""
+        return obj.logicaldevice_set.count()
+
     model = IED
     fields = ['name', 'description']
+    list_display = ['name', 'no_of_logical_devices']
     search_fields = ['name']
 
     inlines = [LogicalDeviceInLine]
@@ -74,5 +117,5 @@ admin.site.register(AttribType)
 admin.site.register(Attribute, AttributeAdmin)
 admin.site.register(IED, IEDAdmin)
 admin.site.register(LogicalNode, LogicalNodeAdmin)
-admin.site.register(LogicalDevice)
+admin.site.register(LogicalDevice, LogicalDeviceAdmin)
 admin.site.register(DataObject, DataObjectAdmin)
