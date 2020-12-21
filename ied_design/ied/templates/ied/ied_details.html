@@ -1,0 +1,43 @@
+{% extends 'ied/base.html' %}
+
+{% block head %}
+    <title>All Vendors</title>
+{% endblock %}
+
+{% block content %}
+<h4>IED Details</h4>
+
+<p><b>Name:</b> {{ ied.name }}</p>
+<p><b>Description: </b>{{ ied.description }}</p>
+<p><b>Manufacturer: </b>{{ ied.manufacturer }}</p>
+
+<div class="card border-primary m-2" style="width: auto;">
+    <div class="card-header">Logical Devices</div>
+        <div class="card-body">
+            {% for ld in ied.logicaldevice_set.all %}
+            <p><b>Name: </b>{{ ld.name }}, <b>Description: </b>{{ ld.description }}</p>
+                <div class="card border-info m-2" style="width: auto;">
+                    <div class="card-header">Logical Nodes</div>
+                    {% for ln in ld.logicalnode_set.all %}
+                    <div class="card-body">
+                        <p><b>Name: </b>{{ ln.name }}, <b>Description: </b>{{ ln.description }}</p>
+
+                        <div class="card border-success m-2" style="width: 20rem;">
+                            <div class="card-header">Data Objects</div>
+                                {% for do in ln.dataobject_set.all %}
+                                    <div class="card border-danger m-2" style="width: auto;">
+                                        <div class="card-body">
+                                            <p><b>Name: </b>{{ do.name }}, <b>Description: </b>{{ do.description }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                         </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

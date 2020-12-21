@@ -7,6 +7,7 @@ from django.db import models
 class IED(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=200, default='')
+    manufacturer = models.CharField(max_length=200, null=True)
 
     class Meta:
         verbose_name = "IED"
@@ -48,7 +49,7 @@ class DataObject(models.Model):
 
 class AttribType(models.Model):
     name = models.CharField(max_length=3, unique=True)
-    desciption = models.CharField(max_length=100, default='')
+    description = models.CharField(max_length=100, default='')
 
     class Meta:
         verbose_name = "AttibuteType"
