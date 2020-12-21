@@ -8,6 +8,12 @@ from django.contrib import admin
 from ied.models import AttribType, Attribute, AttribValue
 from ied.models import IED, LogicalNode, LogicalDevice, DataObject
 
+
+class AttribTypeAdmin(admin.ModelAdmin):
+    model = AttribType
+
+    list_display = ['name', 'description']
+
 # ******************* Group *********************
 
 
@@ -102,8 +108,8 @@ class IEDAdmin(admin.ModelAdmin):
         return obj.logicaldevice_set.count()
 
     model = IED
-    fields = ['name', 'description']
-    list_display = ['name', 'no_of_logical_devices']
+    fields = ['name', 'description', 'manufacturer']
+    list_display = ['name', 'no_of_logical_devices', 'manufacturer']
     search_fields = ['name']
 
     inlines = [LogicalDeviceInLine]
@@ -113,7 +119,7 @@ class IEDAdmin(admin.ModelAdmin):
 # Register your models here.
 
 
-admin.site.register(AttribType)
+admin.site.register(AttribType, AttribTypeAdmin)
 admin.site.register(Attribute, AttributeAdmin)
 admin.site.register(IED, IEDAdmin)
 admin.site.register(LogicalNode, LogicalNodeAdmin)
