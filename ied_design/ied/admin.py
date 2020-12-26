@@ -67,21 +67,10 @@ class DataObjectAdmin(admin.ModelAdmin):
 #
 # ******************* Group *********************
 
-
-class LogicalNodeInline(ForInlines):
-    model = LogicalNode
-    extra = 0
-
-
 class LogicalDeviceAdmin(admin.ModelAdmin):
     model = LogicalDevice
 
-    def no_of_logical_nodes(self, obj):
-        """This gives the number of data objects in this Node"""
-        return obj.logicalnode_set.count()
-
-    list_display = ['name', 'no_of_logical_nodes']
-    inlines = [LogicalNodeInline]
+    list_display = ['name',]
 
 # ****************** End Group ******************
 #

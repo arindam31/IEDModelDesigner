@@ -17,23 +17,23 @@ class IED(models.Model):
         return self.name
 
 
-class LogicalDevice(models.Model):
-    name = models.CharField(max_length=100)
-    ied = models.ForeignKey(IED, on_delete=models.CASCADE, null=True)
-    description = models.CharField(max_length=200, default='')
+class LogicalNode(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.CharField(max_length=200, default="")
 
-    abbr = 'LD'
+    abbr = 'LN'
 
     def __str__(self):
         return self.name
 
 
-class LogicalNode(models.Model):
-    name = models.CharField(max_length=100)
-    logical_device = models.ForeignKey(LogicalDevice, on_delete=models.PROTECT, null=True)
-    description = models.CharField(max_length=200, default="")
+class LogicalDevice(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    ied = models.ForeignKey(IED, on_delete=models.CASCADE, null=True)
+    logical_node = models.ManyToManyField(LogicalNode)
+    description = models.CharField(max_length=200, default='')
 
-    abbr = 'LN'
+    abbr = 'LD'
 
     def __str__(self):
         return self.name
