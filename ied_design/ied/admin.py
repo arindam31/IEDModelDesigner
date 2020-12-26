@@ -9,15 +9,27 @@ from ied.models import AttribType, Attribute, AttribValue
 from ied.models import IED, LogicalNode, LogicalDevice, DataObject
 
 
+class ForInlines(admin.TabularInline):
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 class AttribTypeAdmin(admin.ModelAdmin):
     model = AttribType
 
     list_display = ['name', 'description']
 
+
 # ******************* Group *********************
 
 
-class AttribValueInline(admin.TabularInline):
+class AttribValueInline(ForInlines):
     model = AttribValue
     extra = 0
 
@@ -36,13 +48,12 @@ class AttributeAdmin(admin.ModelAdmin):
 # ******************* Group *********************
 
 
-class AttributeInline(admin.TabularInline):
+class AttributeInline(ForInlines):
     model = Attribute
     extra = 0
 
 
 class DataObjectAdmin(admin.ModelAdmin):
-
 
     def no_of_attributes(self, obj):
         """This gives the number of data objects in this Node"""
@@ -56,9 +67,11 @@ class DataObjectAdmin(admin.ModelAdmin):
 #
 # ******************* Group *********************
 
-class LogicalNodeInline(admin.TabularInline):
+
+class LogicalNodeInline(ForInlines):
     model = LogicalNode
     extra = 0
+
 
 class LogicalDeviceAdmin(admin.ModelAdmin):
     model = LogicalDevice
@@ -75,13 +88,12 @@ class LogicalDeviceAdmin(admin.ModelAdmin):
 # ******************* Group *********************
 
 
-class DataObjectInline(admin.TabularInline):
+class DataObjectInline(ForInlines):
     model = DataObject
     extra = 0
 
 
 class LogicalNodeAdmin(admin.ModelAdmin):
-
 
     def no_of_data_objects(self, obj):
         """This gives the number of data objects in this Node"""
@@ -96,7 +108,7 @@ class LogicalNodeAdmin(admin.ModelAdmin):
 # ******************* Group *********************
 
 
-class LogicalDeviceInLine(admin.TabularInline):
+class LogicalDeviceInLine(ForInlines):
     model = LogicalDevice
     extra = 0
 

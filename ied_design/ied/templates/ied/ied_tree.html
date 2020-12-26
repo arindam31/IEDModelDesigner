@@ -1,0 +1,25 @@
+{% extends 'ied/base.html' %}
+
+{% block head %}
+    <title>All Vendors</title>
+{% endblock %}
+
+{% block content %}
+<h4>IED Details</h4>
+
+<table class="table table-sm table-bordered" style="width: 5rem;">
+     <tbody>
+     <tr>
+        <td class="w-25">{{ ied.name }}</td>
+     </tr>
+     </tbody>
+</table>
+
+            {% for ld in ied.logicaldevice_set.all %}
+                {{ ld.name }},Description: {{ ld.description }}
+                     {% for ln in ld.logicalnode_set.all %}
+                            {{ ln }}
+                        {% endfor %}
+            {% endfor %}
+
+{% endblock %}
