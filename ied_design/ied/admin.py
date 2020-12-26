@@ -70,7 +70,10 @@ class DataObjectAdmin(admin.ModelAdmin):
 class LogicalDeviceAdmin(admin.ModelAdmin):
     model = LogicalDevice
 
-    list_display = ['name',]
+    def get_logical_nodes(self, obj):
+        return obj.logical_node.count()
+
+    list_display = ['name', 'get_logical_nodes']
 
 # ****************** End Group ******************
 #

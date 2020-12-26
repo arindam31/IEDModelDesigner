@@ -5,49 +5,28 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="card border-primary w-50">
-    <div class="card-header">IED: {{ ied.name }}</div>
-    <div class="card-body">
-         <div class="row">
+    <div class="w-50">
         {% for ld in ied.logicaldevice_set.all %}
-             <div class="card border-secondary m-2">
-             <div class="card-header">LD: {{ ld.name }}</div>
-             <div class="card-body">
-                 <div class="row">
-                {% for ln in ld.logicalnode_set.all %}
-                    <div class="col-md">
-                    <div class="card border-info m-2">
-                        <div class="card-header">LN: {{ ln.name }}, {{ ln.description }}</div>
-                        <div class="card-body">
-                            <div class="row">
+            <div class="btn btn-primary my-2">LD: {{ ld.name }}, {{ ld.description }}</div>
+            <ul class="list-group">
+                {% for ln in ld.logical_node.all %}
+                    <li class="list-group-item">
+                        <div class="lead">LN: {{ ln.name }}, {{ ln.description }}</div>
+                            <ul class="list-group">
                             {% for do in ln.dataobject_set.all %}
-                                <div class="col-md">
-                                <div class="card border-danger m-2"><!--- CARD DATAOBJECT --->
-                                    <div class="card-header">DO: {{ do.name }}</div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            {% for att in do.attribute_set.all %}
-                                                    <div class="col-md">
-                                                        <p class="btn btn-success">{{ att.name }}</p>
-                                                    </div>
-                                            {% endfor %}
-                                        </div><!--- ROW ENDS --->
-                                    </div>
-                                </div><!--- CARD ATTRIBUTES ENDS--->
-                                </div>
+                                <li class="list-group-item">
+                                    <div class="lead">DO: {{ do.name }}</div>
+                                    <ul class="list-group">
+                                    {% for att in do.attribute_set.all %}
+                                                <li class="list-group-item">Attr: {{ att.name }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </li>
                             {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    </div>
+                            </ul>
+                    </li>
                  {% endfor %}
-             </div>
-             </div>
-             </div>
             {% endfor %}
-            </div>
+            </ul>
     </div>
-</div>
-
 {% endblock %}
