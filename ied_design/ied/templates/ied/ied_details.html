@@ -1,42 +1,52 @@
 {% extends 'ied/base.html' %}
 
 {% block head %}
-    <title>All Vendors</title>
+    <title>IED Details</title>
 {% endblock %}
 
 {% block content %}
-<h4>IED Details</h4>
 
-<p><b>Name:</b> {{ ied.name }}</p>
-<p><b>Description: </b>{{ ied.description }}</p>
-<p><b>Manufacturer: </b>{{ ied.manufacturer }}</p>
-
-<div class="card border-primary m-2" style="width: auto;">
-    <div class="card-header">Logical Devices</div>
-        <div class="card-body">
-            {% for ld in ied.logicaldevice_set.all %}
-            <p><b>Name: </b>{{ ld.name }}, <b>Description: </b>{{ ld.description }}</p>
-                <div class="card border-info m-2" style="width: auto;">
-                    <div class="card-header">Logical Nodes</div>
-                    {% for ln in ld.logicalnode_set.all %}
-                    <div class="card-body">
-                        <p><b>Name: </b>{{ ln.name }}, <b>Description: </b>{{ ln.description }}</p>
-
-                        <div class="card border-success m-2" style="width: 20rem;">
-                            <div class="card-header">Data Objects</div>
-                                {% for do in ln.dataobject_set.all %}
-                                    <div class="card border-danger m-2" style="width: auto;">
-                                        <div class="card-body">
-                                            <p><b>Name: </b>{{ do.name }}, <b>Description: </b>{{ do.description }}</p>
-                                        </div>
+<div class="card border-primary w-50">
+    <div class="card-header">IED: {{ ied.name }}</div>
+    <div class="card-body">
+         <div class="row">
+        {% for ld in ied.logicaldevice_set.all %}
+             <div class="card border-secondary m-2">
+             <div class="card-header">LD: {{ ld.name }}</div>
+             <div class="card-body">
+                 <div class="row">
+                {% for ln in ld.logicalnode_set.all %}
+                    <div class="col-md">
+                    <div class="card border-info m-2">
+                        <div class="card-header">LN: {{ ln.name }}, {{ ln.description }}</div>
+                        <div class="card-body">
+                            <div class="row">
+                            {% for do in ln.dataobject_set.all %}
+                                <div class="col-md">
+                                <div class="card border-danger m-2"><!--- CARD DATAOBJECT --->
+                                    <div class="card-header">DO: {{ do.name }}</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            {% for att in do.attribute_set.all %}
+                                                    <div class="col-md">
+                                                        <p class="btn btn-success">{{ att.name }}</p>
+                                                    </div>
+                                            {% endfor %}
+                                        </div><!--- ROW ENDS --->
                                     </div>
-                                {% endfor %}
+                                </div><!--- CARD ATTRIBUTES ENDS--->
+                                </div>
+                            {% endfor %}
                             </div>
-                         </div>
-                    {% endfor %}
-                </div>
+                        </div>
+                    </div>
+                    </div>
+                 {% endfor %}
+             </div>
+             </div>
+             </div>
             {% endfor %}
-        </div>
+            </div>
     </div>
 </div>
 
